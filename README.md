@@ -20,5 +20,8 @@
 ``````
 
 # SMALL CLIP
-<video controls src="Screen Recording 2024-11-30 213828.mp4" title="Title"></video>
+
+https://github.com/user-attachments/assets/36f0e54c-1242-4f75-92c4-b732dbc51bee
+
+
 
