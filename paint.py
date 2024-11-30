@@ -10,6 +10,12 @@ rpoints = [deque(maxlen=1024)]
 ypoints = [deque(maxlen=1024)]
 
 
+smooth_x = deque(maxlen=15)  
+smooth_y = deque(maxlen=15)
+
+alpha = 0.3
+ema_x = None
+ema_y = None
 
 blue_index = 0
 green_index = 0
@@ -116,9 +122,33 @@ while ret:
 
           
             mpDraw.draw_landmarks(frame, handslms, mpHands.HAND_CONNECTIONS)
-        fore_finger = (landmarks[8][0],landmarks[8][1])
+        
+        # Get forefinger coordinates
+        raw_x, raw_y = landmarks[8][0], landmarks[8][1]
+        
+        # Add to smoothing buffers
+        smooth_x.append(raw_x)
+        smooth_y.append(raw_y)
+        
+        # Calculate moving average
+        ma_x = int(sum(smooth_x) / len(smooth_x))
+        ma_y = int(sum(smooth_y) / len(smooth_y))
+        
+        # Calculate exponential moving average
+        if ema_x is None:
+            ema_x = raw_x
+            ema_y = raw_y
+        else:
+            ema_x = alpha * raw_x + (1 - alpha) * ema_x
+            ema_y = alpha * raw_y + (1 - alpha) * ema_y
+        
+        # Combine both smoothing techniques
+        smoothed_x = int((ma_x + ema_x) / 2)
+        smoothed_y = int((ma_y + ema_y) / 2)
+        
+        fore_finger = (smoothed_x, smoothed_y)
         center = fore_finger
-        thumb = (landmarks[4][0],landmarks[4][1])
+        thumb = (landmarks[4][0], landmarks[4][1])
         cv2.circle(frame, center, 3, (0,255,0),-1)
         print(center[1]-thumb[1])
         if (thumb[1]-center[1]<30):
