@@ -1,6 +1,6 @@
 #  VIRTUAL PAINTER 
 
--user can directly draw virtually using their index fingers.
+- user can directly draw virtually using their index fingers.
   
 # REQUERED MODULES FOR THE PROJECT
 
