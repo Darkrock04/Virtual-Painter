@@ -1,4 +1,4 @@
-# AI Virtual Painter using Raspberry Pi or Any Other PC
+# AI Virtual Painter 
 
 ## Requirements
 
